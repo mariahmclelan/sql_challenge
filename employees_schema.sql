@@ -1,52 +1,52 @@
 --create tables exported from quick dbd
 CREATE TABLE "departments" (
-    "dept_no" VARCHAR   NOT NULL,
-    "dept_name" VARCHAR   NOT NULL,
+    "dept_no" VARCHAR (4) NOT NULL,
+    "dept_name" VARCHAR (30)   NOT NULL,
     CONSTRAINT "pk_departments" PRIMARY KEY (
         "dept_no"
      )
 );
 
 CREATE TABLE "department_employees" (
-    "emp_no" INTEGER   NOT NULL,
-    "dept_no" VARCHAR   NOT NULL,
+    "emp_no" INTEGER(10) NOT NULL,
+    "dept_no" VARCHAR(4) NOT NULL,
     CONSTRAINT "pk_department_employees" PRIMARY KEY (
         "emp_no","dept_no"
      )
 );
 
 CREATE TABLE "department_mang" (
-    "dept_no" VARCHAR   NOT NULL,
-    "emp_no" INTEGER   NOT NULL,
+    "dept_no" VARCHAR(4) NOT NULL,
+    "emp_no" INTEGER(10) NOT NULL,
     CONSTRAINT "pk_department_mang" PRIMARY KEY (
         "emp_no"
      )
 );
 
 CREATE TABLE "employees" (
-    "emp_no" INTEGER   NOT NULL,
-    "emp_title_id" VARCHAR   NOT NULL,
-    "birth_date" VARCHAR   NOT NULL,
-    "first_name" VARCHAR   NOT NULL,
-    "last_name" VARCHAR   NOT NULL,
-    "sex" VARCHAR   NOT NULL,
-    "hire_date" VARCHAR   NOT NULL,
+    "emp_no" INTEGER(10) NOT NULL,
+    "emp_title_id" VARCHAR(30)  NOT NULL,
+    "birth_date" VARCHAR(10)   NOT NULL,
+    "first_name" VARCHAR(50)   NOT NULL,
+    "last_name" VARCHAR(50)   NOT NULL,
+    "sex" VARCHAR(10)  NOT NULL,
+    "hire_date" VARCHAR(10)  NOT NULL,
     CONSTRAINT "pk_employees" PRIMARY KEY (
         "emp_no"
      )
 );
 
 CREATE TABLE "salaries" (
-    "emp_no" INTEGER   NOT NULL,
-    "salary" INTEGER   NOT NULL,
+    "emp_no" INTEGER(10) NOT NULL,
+    "salary" INTEGER(10)   NOT NULL,
     CONSTRAINT "pk_salaries" PRIMARY KEY (
         "emp_no"
      )
 );
 
 CREATE TABLE "titles" (
-    "title_id" VARCHAR   NOT NULL,
-    "title" VARCHAR   NOT NULL,
+    "title_id" VARCHAR(5)  NOT NULL,
+    "title" VARCHAR(30) NOT NULL,
     CONSTRAINT "pk_titles" PRIMARY KEY (
         "title_id"
      )
@@ -92,28 +92,32 @@ FROM employees
 WHERE EXTRACT(YEAR FROM hire_date::date) = 1986;
 
 --3. List the manager of each department along with their department number, department name, employee number, last name, and first name.
+--number number?
 SELECT 
     dm.emp_no,
     dm.dept_no, 
     e.first_name,
-    e.last_name
+    e.last_name,
+    e.emp_no
 FROM employees e
 JOIN department_mang dm ON
     dm.emp_no=e.emp_no;
 
 --4. List the department number for each employee along with that employee’s employee number, last name, first name, and department name.
+--All not managers
 SELECT 
+    
+    e.emp_no
+    e.last_name,
+    e.first_name,
     d.dept_no,
     d.dept_name,
-    dm.emp_no AS manager_emp_no,
-    e.first_name AS manager_first_name,
-    e.last_name AS manager_last_name
 FROM 
-    departments d
+    employees e
 JOIN 
-    department_mang dm ON d.dept_no = dm.dept_no
+    department_employees de ON e.emp_no = de.emp_no
 JOIN 
-    employees e ON dm.emp_no = e.emp_no;
+    departments d ON de.dept_no = d.dept_no;
 
 --5. List first name, last name, and sex of each employee whose first name is Hercules and whose last name begins with the letter B.
 SELECT first_name, last_name, sex
@@ -153,4 +157,4 @@ WHERE
 SELECT last_name, COUNT(*) AS last_name_count
 FROM employees
 GROUP BY last_name
-ORDER BY name_count DESC;
+ORDER BY last_name_count DESC;
