@@ -92,7 +92,7 @@ FROM employees
 WHERE EXTRACT(YEAR FROM hire_date::date) = 1986;
 
 --3. List the manager of each department along with their department number, department name, employee number, last name, and first name.
---number number?
+--emplolyee number
 SELECT 
     dm.emp_no,
     dm.dept_no, 
