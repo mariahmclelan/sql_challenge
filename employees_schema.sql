@@ -8,7 +8,7 @@ CREATE TABLE "departments" (
 );
 
 CREATE TABLE "department_employees" (
-    "emp_no" INTEGER(10) NOT NULL,
+    "emp_no" INTEGER NOT NULL,
     "dept_no" VARCHAR(4) NOT NULL,
     CONSTRAINT "pk_department_employees" PRIMARY KEY (
         "emp_no","dept_no"
@@ -17,14 +17,14 @@ CREATE TABLE "department_employees" (
 
 CREATE TABLE "department_mang" (
     "dept_no" VARCHAR(4) NOT NULL,
-    "emp_no" INTEGER(10) NOT NULL,
+    "emp_no" INTEGER NOT NULL,
     CONSTRAINT "pk_department_mang" PRIMARY KEY (
         "emp_no"
      )
 );
 
 CREATE TABLE "employees" (
-    "emp_no" INTEGER(10) NOT NULL,
+    "emp_no" INTEGER NOT NULL,
     "emp_title_id" VARCHAR(30)  NOT NULL,
     "birth_date" VARCHAR(10)   NOT NULL,
     "first_name" VARCHAR(50)   NOT NULL,
@@ -37,8 +37,8 @@ CREATE TABLE "employees" (
 );
 
 CREATE TABLE "salaries" (
-    "emp_no" INTEGER(10) NOT NULL,
-    "salary" INTEGER(10)   NOT NULL,
+    "emp_no" INTEGER NOT NULL,
+    "salary" INTEGER   NOT NULL,
     CONSTRAINT "pk_salaries" PRIMARY KEY (
         "emp_no"
      )
